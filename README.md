@@ -21,3 +21,8 @@ dapat menjelaskan alur kerja dari program yang buat kepada rekannya sesama peser
 - Intellij Idea
 - Java 11 atau lebih
 - MySQL database
+
+# Soal Logic
+Soal logic digunakan untuk latihan algoritma dasar hingga pemahaman oop tingkat lanjut.
+Peserta dapat membuat class BaseLogic kemudian diturunkan menggunakan extends pada setiap soal.
+sebaiknya setiap soal logic dikelompokan menggunakan package agar lebih tersusun rapi dan terstruktur
