@@ -1,6 +1,7 @@
 package com.bootcamp.polymorphism;
 
 import com.bootcamp.polymorphism.logic03.Logic03Soal09;
+import com.bootcamp.polymorphism.logic03.Logic03Soal13;
 
 import java.util.Scanner;
 
@@ -10,8 +11,8 @@ public class MainLogic03 {
         System.out.print("Masukan nilai n : ");
         int n = scanner.nextInt();
 
-        System.out.println("\nLogic 03 Soal no 1");
-        SoalLogic soal = new Logic03Soal09(n);
+        System.out.println("\nLogic 03 Soal no 13");
+        SoalLogic soal = new Logic03Soal13(n);
         soal.cetakArray();
     }
 }
