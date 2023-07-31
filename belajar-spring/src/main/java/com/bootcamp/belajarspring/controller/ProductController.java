@@ -25,4 +25,18 @@ public class ProductController {
 
         return data1;
     }
+
+    @GetMapping("/direct")
+    public Product getDirect(){
+        return new Product();
+    }
+
+    @GetMapping("/direct2")
+    public Product getDirect2(){
+        return new Product(1,
+                "Kopi",
+                "Kopi Robusta asli Lampung nikmat sekali",
+                75000,
+                1);
+    }
 }
