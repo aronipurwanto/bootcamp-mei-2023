@@ -1,9 +1,9 @@
 package com.bootcamp.belajarspring.controller;
 
 import com.bootcamp.belajarspring.model.Product;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.bootcamp.belajarspring.model.Response;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/product")
@@ -38,5 +38,20 @@ public class ProductController {
                 "Kopi Robusta asli Lampung nikmat sekali",
                 75000,
                 1);
+    }
+
+    @PostMapping
+    public ResponseEntity<Object> postData(@RequestBody Product request){
+        return ResponseEntity
+                .ok()
+                .body("Data berhasil diterima");
+    }
+
+    @PostMapping("/with-response")
+    public ResponseEntity<Object> postDataWithResponse(@RequestBody Product request){
+        Response result = new Response(200,"SUCCESS",request);
+        return ResponseEntity
+                .ok()
+                .body(result);
     }
 }
