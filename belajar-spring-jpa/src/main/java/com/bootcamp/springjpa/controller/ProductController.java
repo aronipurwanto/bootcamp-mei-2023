@@ -25,6 +25,13 @@ public class ProductController {
                 .body(new Response(200,"Success", result));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getById(@PathVariable Integer id){
+        ProductEntity result = productService.getById(id);
+        return ResponseEntity.ok()
+                .body(new Response(200,"Success", result));
+    }
+
     @PostMapping
     public ResponseEntity<Object> save(@RequestBody ProductDto request){
         ProductEntity result = productService.save(request);

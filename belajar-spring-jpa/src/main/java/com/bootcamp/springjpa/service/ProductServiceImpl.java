@@ -23,6 +23,11 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
+    public ProductEntity getById(Integer id) {
+        return productRepo.findById(id).orElse(null);
+    }
+
+    @Override
     public ProductEntity save(ProductDto request) {
         ProductEntity result = new ProductEntity();
         result.setId(request.getId());
