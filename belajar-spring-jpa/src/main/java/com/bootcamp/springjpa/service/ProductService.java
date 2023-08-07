@@ -10,4 +10,5 @@ public interface ProductService {
     ProductEntity getById(Integer id);
     ProductEntity save(ProductDto request);
     ProductEntity delete(Integer id);
+    ProductEntity update(Integer id, ProductDto request);
 }

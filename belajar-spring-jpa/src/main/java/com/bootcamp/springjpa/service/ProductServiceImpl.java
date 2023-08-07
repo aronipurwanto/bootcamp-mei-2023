@@ -66,4 +66,30 @@ public class ProductServiceImpl implements ProductService{
             return null;
         }
     }
+
+    @Override
+    public ProductEntity update(Integer id, ProductDto request) {
+        ProductEntity entity = productRepo.findById(id).orElse(null);
+        if(entity == null) {
+            log.info("Product with id: {} not found", id);
+            return null;
+        }
+
+        entity.setId(request.getId());
+        entity.setName(request.getName());
+        entity.setDescription(request.getDescription());
+        entity.setPrice(request.getPrice());
+        entity.setQuantity(request.getQuantity());
+
+        try{
+            // proses delete ke DB
+            productRepo.save(entity);
+            log.info("Update product to database successfully");
+            return entity;
+        }catch (Exception e) {
+            // jika ada error
+            log.error("Update product to database failed, error: {}", e.getMessage());
+            return null;
+        }
+    }
 }

@@ -60,4 +60,28 @@ public class ProductController {
         return ResponseEntity.ok()
                 .body(new Response(200,"Success", result));
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Object> update(@PathVariable Integer id,
+                                         @RequestBody ProductDto request){
+        ProductEntity result = productService.update(id, request);
+        String message = "Success";
+        if(result == null){
+            message = "Failed";
+        }
+        return ResponseEntity.ok()
+                .body(new Response(200, message, result));
+    }
+
+    @PatchMapping("/{id}/update-form")
+    public ResponseEntity<Object> updateForm(@PathVariable Integer id,
+                                         @ModelAttribute ProductDto request){
+        ProductEntity result = productService.update(id, request);
+        String message = "Success";
+        if(result == null){
+            message = "Failed";
+        }
+        return ResponseEntity.ok()
+                .body(new Response(200, message, result));
+    }
 }
