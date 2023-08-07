@@ -45,4 +45,25 @@ public class ProductServiceImpl implements ProductService{
             return null;
         }
     }
+
+    @Override
+    public ProductEntity delete(Integer id) {
+        // cari data product base on id
+        ProductEntity entity = productRepo.findById(id).orElse(null);
+        if(entity == null) {
+            log.info("Product with id: {} not found", id);
+            return null;
+        }
+
+        try{
+            // proses delete ke DB
+            productRepo.delete(entity);
+            log.info("Delete product from database successfully");
+            return entity;
+        }catch (Exception e) {
+            // jika ada error
+            log.error("Delete product from database failed, error: {}", e.getMessage());
+            return null;
+        }
+    }
 }

@@ -9,4 +9,5 @@ public interface ProductService {
     List<ProductEntity> getAll();
     ProductEntity getById(Integer id);
     ProductEntity save(ProductDto request);
+    ProductEntity delete(Integer id);
 }

@@ -42,4 +42,22 @@ public class ProductController {
         return ResponseEntity.ok()
                 .body(new Response(200, message, result));
     }
+
+    @PostMapping("/save-form")
+    public ResponseEntity<Object> saveForm(@ModelAttribute ProductDto request){
+        ProductEntity result = productService.save(request);
+        String message = "Success";
+        if(result == null){
+            message = "Failed";
+        }
+        return ResponseEntity.ok()
+                .body(new Response(200, message, result));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable Integer id){
+        ProductEntity result = productService.delete(id);
+        return ResponseEntity.ok()
+                .body(new Response(200,"Success", result));
+    }
 }
