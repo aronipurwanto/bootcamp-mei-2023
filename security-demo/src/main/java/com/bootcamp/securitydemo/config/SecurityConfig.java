@@ -1,5 +1,6 @@
 package com.bootcamp.securitydemo.config;
 
+import com.bootcamp.securitydemo.dao.UserDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,16 +32,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
-    private final static List<UserDetails> APPLICATION_USERS = Arrays.asList(
-            new User("admin@gmail.com","password", Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN"))),
-            new User("user@gmail.com","password", Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")))
-    );
+    private final UserDao userDao;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .anyRequest()
-                .authenticated()
+                .anyRequest().authenticated()
+                .antMatchers("/**/auth/**").permitAll()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -73,10 +71,7 @@ public class SecurityConfig {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-                return APPLICATION_USERS.stream()
-                        .filter(u -> u.getUsername().equals(email))
-                        .findFirst()
-                        .orElseThrow(() ->new UsernameNotFoundException("User does not exist..!"));
+                return userDao.findUserByEmail(email);
             }
         };
     }

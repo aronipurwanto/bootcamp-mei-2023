@@ -1,5 +1,6 @@
 package com.bootcamp.securitydemo.config;
 
+import com.bootcamp.securitydemo.dao.UserDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,7 +24,11 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
     private static final String BEARER = "Bearer ";
-    private final UserDetailsService userDetailsService;
+    // Step 1
+    // private final UserDetailsService userDetailsService;
+
+    // step 2
+    private final UserDao userDao;
     private final JwtUtils jwtUtils;
 
     @Override
@@ -41,7 +46,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         userEmail = jwtUtils.extractUsername(jwtToken);
 
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
-            UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+            // Step 1
+            // UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+
+            // step 2
+            UserDetails userDetails = userDao.findUserByEmail(userEmail);
             if(jwtUtils.isTokenValid(jwtToken,userDetails)){
                 UsernamePasswordAuthenticationToken autToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null
