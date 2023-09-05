@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.bootcamp</groupId>
-    <artifactId>security-demo-02</artifactId>
+    <artifactId>security-demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>security-demo</name>
-    <description>security-demo-02</description>
+    <description>security-demo</description>
     <properties>
         <java.version>17</java.version>
     </properties>

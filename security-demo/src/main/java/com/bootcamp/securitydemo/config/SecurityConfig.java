@@ -3,6 +3,7 @@ package com.bootcamp.securitydemo.config;
 import com.bootcamp.securitydemo.dao.UserDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -29,16 +30,21 @@ import java.util.Collections;
 import java.util.List;
 
 @EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
     private final UserDao userDao;
 
+    public SecurityConfig(@Lazy JwtAuthFilter jwtAuthFilter, @Lazy UserDao userDao) {
+        this.jwtAuthFilter = jwtAuthFilter;
+        this.userDao = userDao;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .anyRequest().authenticated()
+        http.csrf().disable()
+                .authorizeRequests()
                 .antMatchers("/**/auth/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

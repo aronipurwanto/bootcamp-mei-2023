@@ -26,7 +26,7 @@ public class UserDao {
 
     public UserDetails findUserByEmail(String email){
         List<UserDetails> users = this.getUserDetails();
-        
+
         return users.stream()
                 .filter(u -> u.getUsername().equals(email))
                 .findFirst()

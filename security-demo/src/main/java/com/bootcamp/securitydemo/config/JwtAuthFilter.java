@@ -2,6 +2,7 @@ package com.bootcamp.securitydemo.config;
 
 import com.bootcamp.securitydemo.dao.UserDao;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -21,7 +22,6 @@ import java.util.Collection;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Component
-@RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
     private static final String BEARER = "Bearer ";
     // Step 1
@@ -30,6 +30,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     // step 2
     private final UserDao userDao;
     private final JwtUtils jwtUtils;
+
+    public JwtAuthFilter(@Lazy UserDao userDao, JwtUtils jwtUtils) {
+        this.userDao = userDao;
+        this.jwtUtils = jwtUtils;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
