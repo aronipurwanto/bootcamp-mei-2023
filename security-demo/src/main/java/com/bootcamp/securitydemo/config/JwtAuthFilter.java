@@ -1,6 +1,7 @@
 package com.bootcamp.securitydemo.config;
 
 import com.bootcamp.securitydemo.dao.UserDao;
+import com.bootcamp.securitydemo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,11 +29,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     // private final UserDetailsService userDetailsService;
 
     // step 2
-    private final UserDao userDao;
+    // private final UserDao userDao;
+    private final UserService userService;
     private final JwtUtils jwtUtils;
 
-    public JwtAuthFilter(@Lazy UserDao userDao, JwtUtils jwtUtils) {
-        this.userDao = userDao;
+    public JwtAuthFilter(@Lazy UserService userService, JwtUtils jwtUtils) {
+        this.userService = userService;
         this.jwtUtils = jwtUtils;
     }
 
@@ -55,7 +57,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             // UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
 
             // step 2
-            UserDetails userDetails = userDao.findUserByEmail(userEmail);
+            UserDetails userDetails = userService.loadUserByUsername(userEmail);
             if(jwtUtils.isTokenValid(jwtToken,userDetails)){
                 UsernamePasswordAuthenticationToken autToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null

@@ -1,6 +1,7 @@
 package com.bootcamp.securitydemo.config;
 
 import com.bootcamp.securitydemo.dao.UserDao;
+import com.bootcamp.securitydemo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
@@ -32,11 +33,12 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
-    private final UserDao userDao;
+    //private final UserDao userDao;
+    private final UserService userService;
 
-    public SecurityConfig(@Lazy JwtAuthFilter jwtAuthFilter, @Lazy UserDao userDao) {
+    public SecurityConfig(@Lazy JwtAuthFilter jwtAuthFilter, @Lazy UserService userService) {
         this.jwtAuthFilter = jwtAuthFilter;
-        this.userDao = userDao;
+        this.userService = userService;
     }
 
     @Bean
@@ -77,7 +79,7 @@ public class SecurityConfig {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-                return userDao.findUserByEmail(email);
+                return userService.loadUserByUsername(email);
             }
         };
     }

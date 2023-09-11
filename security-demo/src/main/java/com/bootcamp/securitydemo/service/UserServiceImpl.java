@@ -62,7 +62,33 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public Optional<UserEntity> update(String id, UserDto request) {
-        return Optional.empty();
+        if(id == null || id.isEmpty()){
+            return Optional.empty();
+        }
+
+        UserEntity entity = this.userRepo.findById(id).orElse(null);
+        if(entity == null){
+            return Optional.empty();
+        }
+
+        // copy value property
+        BeanUtils.copyProperties(request, entity);
+        // get role
+        Optional<RoleEntity> role = roleRepo.findByName(request.getRole());
+        role.ifPresent(roleEntity -> entity.setRoles(Arrays.asList(roleEntity)));
+
+        // set password to encrypt
+        entity.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        try{
+            this.userRepo.save(entity);
+            log.info("Update user is success");
+            return Optional.of(entity);
+        }catch (Exception e){
+            log.error("Update user is failed, error: {}", e.getMessage());
+            return Optional.empty();
+        }
+
     }
 
     @Override
