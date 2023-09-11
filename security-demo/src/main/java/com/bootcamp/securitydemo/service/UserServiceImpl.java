@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserService{
             return Optional.empty();
         }
 
+        // find user base on id
         UserEntity entity = this.userRepo.findById(id).orElse(null);
         if(entity == null){
             return Optional.empty();

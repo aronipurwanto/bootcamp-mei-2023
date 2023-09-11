@@ -1,6 +1,8 @@
 package com.bootcamp.securitydemo.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -12,6 +14,8 @@ import javax.persistence.Table;
 @Table(name = "tbl_role")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class RoleEntity {
     @Id
     @Column(name = "id", length = 36)
