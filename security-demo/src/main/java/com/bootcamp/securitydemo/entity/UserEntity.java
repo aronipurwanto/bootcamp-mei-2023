@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "tbl_user")
@@ -40,9 +41,16 @@ public class UserEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        /* cara 1
         Collection<SimpleGrantedAuthority> roles = this.roles.stream()
                 .map(adel -> new SimpleGrantedAuthority(adel.getName()))
                 .toList();
+         */
+
+        // cara 2
+        List<GrantedAuthority> roles = this.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toList());
 
         return roles;
     }
