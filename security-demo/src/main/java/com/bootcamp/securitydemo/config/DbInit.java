@@ -1,7 +1,9 @@
 package com.bootcamp.securitydemo.config;
 
+import com.bootcamp.securitydemo.entity.ProductEntity;
 import com.bootcamp.securitydemo.entity.RoleEntity;
 import com.bootcamp.securitydemo.entity.UserEntity;
+import com.bootcamp.securitydemo.repository.ProductRepo;
 import com.bootcamp.securitydemo.repository.RoleRepo;
 import com.bootcamp.securitydemo.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +23,16 @@ public class DbInit implements CommandLineRunner {
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
     private final PasswordEncoder encoder;
+    private final ProductRepo productRepo;
 
     @Override
     public void run(String... args) throws Exception {
+        initUserAndRole();
+
+        initProduct();
+    }
+
+    private void initUserAndRole(){
         // insert role
         if(roleRepo.findAll().isEmpty()){
             try {
@@ -58,6 +67,18 @@ public class DbInit implements CommandLineRunner {
             adminRole.ifPresent(roleEntity -> this.userRepo.save(new UserEntity(UUID.randomUUID().toString(), "Admin", "admin@gmail.com",
                     encoder.encode("P@ssW0rd"), Arrays.asList(roleEntity))
             ));
+        }
+    }
+
+    private void initProduct(){
+        if(productRepo.findAll().isEmpty()){
+            this.productRepo.saveAll(Arrays.asList(
+                    new ProductEntity(UUID.randomUUID().toString(),"P001","Susu Cair",18000.0,100.0),
+                    new ProductEntity(UUID.randomUUID().toString(),"P002","Susu Coklate",20000.0,100.0),
+                    new ProductEntity(UUID.randomUUID().toString(),"P003","Susu Strobery",25000.0,100.0),
+                    new ProductEntity(UUID.randomUUID().toString(),"P004","Susu Vanila",30000.0,100.0)
+                    )
+            );
         }
     }
 }

@@ -2,6 +2,7 @@ package com.bootcamp.securitydemo.controller;
 
 import com.bootcamp.securitydemo.config.JwtUtils;
 import com.bootcamp.securitydemo.dto.AuthenticationRequest;
+import com.bootcamp.securitydemo.dto.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,13 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-public class AuthenticationController {
+public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final JwtUtils jwtUtils;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest request){
+    public ResponseEntity<Response> authenticate(@RequestBody AuthenticationRequest request){
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
@@ -30,9 +31,14 @@ public class AuthenticationController {
         final UserDetails user  = userDetailsService.loadUserByUsername(request.getEmail());
         if(user != null){
             String token =  jwtUtils.generateToken(user);
-            return ResponseEntity.ok(token);
+            return ResponseEntity.ok().body(
+                    new Response(200,"SUCCESS", token)
+            );
         }else {
-            return ResponseEntity.status(400).body("Something has error occurred");
+            return ResponseEntity.status(400)
+                    .body(
+                            new Response(400,"Something has error occurred",null)
+                    );
         }
     }
 }
