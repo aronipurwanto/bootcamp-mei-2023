@@ -1,7 +1,7 @@
 package com.bootcamp.securitydemo.controller;
 
 import com.bootcamp.securitydemo.config.JwtUtils;
-import com.bootcamp.securitydemo.dto.AuthenticationRequest;
+import com.bootcamp.securitydemo.dto.AuthRequest;
 import com.bootcamp.securitydemo.dto.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class AuthController {
     private final JwtUtils jwtUtils;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<Response> authenticate(@RequestBody AuthenticationRequest request){
+    public ResponseEntity<Response> authenticate(@RequestBody AuthRequest request){
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
