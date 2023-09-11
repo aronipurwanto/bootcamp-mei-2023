@@ -1,5 +1,6 @@
 package com.bootcamp.securitydemo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,11 +32,13 @@ public class CartItemEntity {
     @Column(name = "sub_total")
     private Double subTotal;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", insertable = false, updatable = false)
+    @JsonBackReference
     private ProductEntity product;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "card_id", insertable = false, updatable = false)
+    @JsonBackReference
     private CartEntity cart;
 }

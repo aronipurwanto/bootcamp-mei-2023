@@ -1,5 +1,6 @@
 package com.bootcamp.securitydemo.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,8 @@ public class CartEntity {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @Column(nullable = true)
+    @JsonManagedReference
     private List<CartItemEntity> cartItems = new ArrayList<>();
 
     public void addCartItem(CartItemEntity itemEntity){
