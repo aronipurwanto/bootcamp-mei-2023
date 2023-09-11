@@ -1,11 +1,13 @@
 package com.bootcamp.securitydemo.entity;
 
+import com.bootcamp.securitydemo.dto.CartItemDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tbl_cart_item")
@@ -41,4 +43,13 @@ public class CartItemEntity {
     @JoinColumn(name = "card_id", insertable = false, updatable = false)
     @JsonBackReference
     private CartEntity cart;
+
+    public CartItemEntity(CartItemDto itemDto, String cartId) {
+        this.id = UUID.randomUUID().toString();
+        this.cartId = cartId;
+        this.productId = itemDto.getProductId();
+        this.qty = itemDto.getQty();
+        this.price = itemDto.getPrice();
+        this.subTotal = itemDto.getQty() * itemDto.getPrice();
+    }
 }

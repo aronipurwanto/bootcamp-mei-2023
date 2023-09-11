@@ -10,4 +10,5 @@ public interface CartService {
     List<CartEntity> getAll();
     Optional<CartEntity> getById(String id);
     Optional<CartEntity> save(CartDto request);
+    Optional<CartEntity> simpleSave(CartDto request);
 }

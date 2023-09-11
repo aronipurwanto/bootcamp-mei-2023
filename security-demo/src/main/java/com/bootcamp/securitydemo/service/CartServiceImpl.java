@@ -72,4 +72,22 @@ public class CartServiceImpl implements CartService{
             return Optional.empty();
         }
     }
+
+    @Override
+    public Optional<CartEntity> simpleSave(CartDto request) {
+        if(request == null) {
+            log.info("Request is null");
+            return Optional.empty();
+        }
+
+        CartEntity cart = new CartEntity(request);
+        try{
+            this.cardRepo.save(cart);
+            log.info("Save cart success");
+            return Optional.of(cart);
+        }catch (Exception e){
+            log.error("Save cart failed, Error: {}", e.getMessage());
+            return Optional.empty();
+        }
+    }
 }

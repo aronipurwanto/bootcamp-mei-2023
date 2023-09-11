@@ -66,4 +66,24 @@ public class CartController {
         }
 
     }
+
+    @PostMapping("/simple")
+    public ResponseEntity<Response> simpleSave(@RequestBody CartDto request){
+        Optional<CartEntity> result = this.cartService.simpleSave(request);
+
+        if(result.isPresent()){
+            return ResponseEntity
+                    .ok()
+                    .body(
+                            new Response(200,"SUCCESS", result)
+                    );
+        }else {
+            return ResponseEntity
+                    .status(500)
+                    .body(
+                            new Response(500,"FAILED", null)
+                    );
+        }
+
+    }
 }
