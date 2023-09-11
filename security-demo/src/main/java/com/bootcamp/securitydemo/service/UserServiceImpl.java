@@ -37,6 +37,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public Optional<UserEntity> getByEmail(String email) {
+        return userRepo.findByEmail(email);
+    }
+
+    @Override
     public Optional<UserEntity> save(UserDto request) {
         UserEntity entity = new UserEntity();
         BeanUtils.copyProperties(request, entity);
