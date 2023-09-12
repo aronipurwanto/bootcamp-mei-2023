@@ -24,6 +24,9 @@ public class CartEntity {
     @Column(name = "id", length = 36)
     private String id;
 
+    @Column(name = "customer_name", length = 100)
+    private String customerName;
+
     @Column(name = "invoice_no", length = 20)
     private String invoiceNo;
 
@@ -37,7 +40,6 @@ public class CartEntity {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @Column(nullable = true)
     @JsonManagedReference
     private List<CartItemEntity> cartItems = new ArrayList<>();
 
@@ -53,6 +55,7 @@ public class CartEntity {
 
     public CartEntity(CartDto cartDto) {
         this.id = UUID.randomUUID().toString();
+        this.customerName = cartDto.getCustomerName();
         this.invoiceNo = cartDto.getInvoiceNo();
         this.createdAt = LocalDateTime.now();
 

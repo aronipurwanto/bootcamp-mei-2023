@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartDto {
-    private String id;
+    private String customerName;
     private String invoiceNo;
     private List<CartItemDto> cartItems;
 }

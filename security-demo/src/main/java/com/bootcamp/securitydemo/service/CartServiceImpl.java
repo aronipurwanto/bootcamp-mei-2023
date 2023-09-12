@@ -40,6 +40,7 @@ public class CartServiceImpl implements CartService{
 
         CartEntity cart = new CartEntity();
         cart.setId(UUID.randomUUID().toString());
+        cart.setCustomerName(request.getCustomerName());
         cart.setInvoiceNo(request.getInvoiceNo());
 
         // total
