@@ -22,8 +22,13 @@ import java.util.stream.Collectors;
 @Table(name = "tbl_user")
 public class UserEntity implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "tbl_sequence")
-    @TableGenerator(name = "tbl_user_seq", table = "tbl_sequence", pkColumnName = "sequence_id", pkColumnValue = "sequence_value")
+    @TableGenerator(name = "tbl_user_seq",
+            table = "tbl_sequence",
+            pkColumnName = "sequence_id",
+            valueColumnName="sequence_value",
+            pkColumnValue = "user_id",
+            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "tbl_user_seq")
     @Column(name = "id")
     private Long id;
 
