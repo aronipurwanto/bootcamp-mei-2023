@@ -46,6 +46,14 @@ public class UserEntity implements UserDetails {
     )
     private List<RoleEntity> roles = new ArrayList<>();
 
+    public UserEntity(String firstName, String lastName, String email, String password, List<RoleEntity> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = this.roles.stream()
