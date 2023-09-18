@@ -25,18 +25,21 @@ public class TokenEntity {
     private Long id;
 
     @Column(name = "token", unique = true, length = 1028)
-    public String token;
+    private String token;
 
     @Column(name = "token_type", length = 16)
-    public String tokenType;
+    private String tokenType;
 
     @Column(name = "revoked")
-    public boolean revoked;
+    private boolean revoked;
 
     @Column(name = "expired")
-    public boolean expired;
+    private boolean expired;
+
+    @Column(name = "user_id")
+    private Long userId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     public UserEntity user;
 }

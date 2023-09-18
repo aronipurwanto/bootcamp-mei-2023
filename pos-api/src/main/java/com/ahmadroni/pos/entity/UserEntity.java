@@ -2,7 +2,6 @@ package com.ahmadroni.pos.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -38,7 +36,7 @@ public class UserEntity implements UserDetails {
     @Column(name = "last_name", length = 32)
     private String lastName;
 
-    @Column(name = "email", length = 128)
+    @Column(name = "email", length = 128, unique = true)
     private String email;
 
     @Column(name = "password", length = 1028)
