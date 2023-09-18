@@ -52,6 +52,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <!-- jjwt dependency -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
