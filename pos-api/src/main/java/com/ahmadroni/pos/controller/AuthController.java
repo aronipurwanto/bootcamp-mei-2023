@@ -1,7 +1,7 @@
 package com.ahmadroni.pos.controller;
 
 import com.ahmadroni.pos.model.*;
-import com.ahmadroni.pos.service.AuthenticationService;
+import com.ahmadroni.pos.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +16,11 @@ import java.util.Optional;
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
-    private final AuthenticationService authService;
+    private final AuthService authService;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<ResponseModel> authenticate(@RequestBody AuthenticationRequest request){
-        Optional<AuthenticationResponse> result = authService.authenticate(request);
+    public ResponseEntity<ResponseModel> authenticate(@RequestBody AuthRequest request){
+        Optional<AuthResponse> result = authService.authenticate(request);
         if(result.isPresent()) {
             return ResponseEntity.ok()
                     .body(new ResponseModel(200, "SUCCESS", result));
@@ -32,7 +32,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<ResponseModel> register(@RequestBody RegisterRequest request) {
-        Optional<AuthenticationResponse> result = authService.register(request);
+        Optional<AuthResponse> result = authService.register(request);
 
         if(result.isPresent()) {
             return ResponseEntity.ok()

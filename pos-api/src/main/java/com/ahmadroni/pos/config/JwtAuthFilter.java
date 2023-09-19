@@ -20,7 +20,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
-    private final JwtUtil jwtUtil;
+    private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
     @Override
@@ -35,12 +35,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         jwt = authHeader.substring(7);
-        userEmail = jwtUtil.extractUsername(jwt);
+        userEmail = jwtService.extractUsername(jwt);
 
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
 
-            if(jwtUtil.isTokenValid(jwt, userDetails)){
+            if(jwtService.isTokenValid(jwt, userDetails)){
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,

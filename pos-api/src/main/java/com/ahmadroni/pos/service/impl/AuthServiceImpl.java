@@ -1,18 +1,18 @@
 package com.ahmadroni.pos.service.impl;
 
 import com.ahmadroni.pos.config.CommonConstant;
-import com.ahmadroni.pos.config.JwtUtil;
+import com.ahmadroni.pos.config.JwtService;
 import com.ahmadroni.pos.entity.RoleEntity;
 import com.ahmadroni.pos.entity.TokenEntity;
 import com.ahmadroni.pos.entity.UserEntity;
-import com.ahmadroni.pos.model.AuthenticationRequest;
-import com.ahmadroni.pos.model.AuthenticationResponse;
+import com.ahmadroni.pos.model.AuthRequest;
+import com.ahmadroni.pos.model.AuthResponse;
 import com.ahmadroni.pos.model.ProfileResponse;
 import com.ahmadroni.pos.model.RegisterRequest;
 import com.ahmadroni.pos.repository.RoleRepo;
 import com.ahmadroni.pos.repository.TokenRepo;
 import com.ahmadroni.pos.repository.UserRepo;
-import com.ahmadroni.pos.service.AuthenticationService;
+import com.ahmadroni.pos.service.AuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -34,16 +34,16 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class AuthenticationServiceImpl implements AuthenticationService {
+public class AuthServiceImpl implements AuthService {
     private final RoleRepo roleRepo;
     private final UserRepo userRepo;
     private final TokenRepo tokenRepo;
-    private final JwtUtil jwtService;
+    private final JwtService jwtService;
     private final PasswordEncoder encoder;
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public Optional<AuthenticationResponse> authenticate(AuthenticationRequest request) {
+    public Optional<AuthResponse> authenticate(AuthRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -62,7 +62,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public Optional<AuthenticationResponse> register(RegisterRequest request) {
+    public Optional<AuthResponse> register(RegisterRequest request) {
         if(request == null) {
             return Optional.empty();
         }
@@ -124,7 +124,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             // jika tokennya valid
             if(jwtService.isTokenValid(refreshToken, user)){
                 // call method get response
-                Optional<AuthenticationResponse> authResponse = this.getResponse(user, false);
+                Optional<AuthResponse> authResponse = this.getResponse(user, false);
                 // set response
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
@@ -166,7 +166,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return Optional.of(result);
     }
 
-    private Optional<AuthenticationResponse> getResponse(UserEntity user, boolean isRegister){
+    private Optional<AuthResponse> getResponse(UserEntity user, boolean isRegister){
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         // save token
@@ -177,7 +177,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             this.revokeAllUserTokens(user);
 
         // generate response
-        var result =  new AuthenticationResponse(jwtToken, refreshToken);
+        var result =  new AuthResponse(jwtToken, refreshToken);
 
         return Optional.of(result);
     }
