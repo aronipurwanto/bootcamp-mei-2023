@@ -7,6 +7,7 @@ import com.ahmadroni.pos.entity.TokenEntity;
 import com.ahmadroni.pos.entity.UserEntity;
 import com.ahmadroni.pos.model.AuthenticationRequest;
 import com.ahmadroni.pos.model.AuthenticationResponse;
+import com.ahmadroni.pos.model.ProfileResponse;
 import com.ahmadroni.pos.model.RegisterRequest;
 import com.ahmadroni.pos.repository.RoleRepo;
 import com.ahmadroni.pos.repository.TokenRepo;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -127,6 +129,38 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
         }
+    }
+
+    @Override
+    public Optional<ProfileResponse> profile(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        final String refreshToken;
+        final String userEmail;
+
+        if(authHeader == null || !authHeader.startsWith(CommonConstant.BEARER_VALUE)){
+            return Optional.empty();
+        }
+
+        // di ambil string dari index ke 7
+        refreshToken = authHeader.substring(7);
+        // extract email dari token lewat method jwtService.extractUsername
+        userEmail = jwtService.extractUsername(refreshToken);
+
+        // jika userEmail nya null maka return empty
+        if(userEmail == null) {
+            return Optional.empty();
+        }
+
+        // jika user tidak ditemukan, maka berikan pesan error
+        UserEntity user = userRepo.findByEmail(userEmail).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        ProfileResponse result = new ProfileResponse();
+        BeanUtils.copyProperties(user, result);
+        // get roles dari user ..
+        List<String> roles = user.getRoles().stream().map(RoleEntity::getName).collect(Collectors.toList());
+        result.setRoles(roles);
+        // return
+        return Optional.of(result);
     }
 
     private Optional<AuthenticationResponse> getResponse(UserEntity user, boolean isRegister){
