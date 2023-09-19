@@ -132,7 +132,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public Optional<ProfileResponse> profile(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public Optional<ProfileResponse> profile(HttpServletRequest request, HttpServletResponse response) {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String refreshToken;
         final String userEmail;
@@ -152,7 +152,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         // jika user tidak ditemukan, maka berikan pesan error
-        UserEntity user = userRepo.findByEmail(userEmail).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        UserEntity user = userRepo.findByEmail(userEmail).orElse(null); //.orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        if(user == null){
+            return Optional.empty();
+        }
 
         ProfileResponse result = new ProfileResponse();
         BeanUtils.copyProperties(user, result);

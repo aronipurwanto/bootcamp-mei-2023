@@ -1,9 +1,6 @@
 package com.ahmadroni.pos.controller;
 
-import com.ahmadroni.pos.model.AuthenticationRequest;
-import com.ahmadroni.pos.model.AuthenticationResponse;
-import com.ahmadroni.pos.model.RegisterRequest;
-import com.ahmadroni.pos.model.ResponseModel;
+import com.ahmadroni.pos.model.*;
 import com.ahmadroni.pos.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -53,9 +50,13 @@ public class AuthController {
 
     @GetMapping("/profile")
     public ResponseEntity<ResponseModel> getProfile(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        var result = authService.profile(request, response);
+        Optional<ProfileResponse> result = authService.profile(request, response);
+        if(result.isPresent()) {
+            return ResponseEntity.ok()
+                    .body(new ResponseModel(200, "SUCCESS", result));
+        }
 
-        return ResponseEntity.ok()
-                .body(new ResponseModel(200,"SUCCESS", result));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ResponseModel(500,"FAILED","User not found"));
     }
 }

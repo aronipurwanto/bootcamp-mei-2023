@@ -14,5 +14,5 @@ public interface AuthenticationService {
     Optional<AuthenticationResponse> authenticate(AuthenticationRequest request);
     Optional<AuthenticationResponse> register(RegisterRequest request);
     void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException;
-    Optional<ProfileResponse> profile(HttpServletRequest request, HttpServletResponse response) throws IOException;
+    Optional<ProfileResponse> profile(HttpServletRequest request, HttpServletResponse response);
 }
