@@ -27,7 +27,7 @@ public class CategoryEntity {
     @Column(name = "category_code", length = 16, unique = true)
     private String code;
 
-    @Column(name = "category_name", length = 64)
+    @Column(name = "category_name", length = 64, unique = true)
     private String name;
 
     public CategoryEntity(String code, String name) {

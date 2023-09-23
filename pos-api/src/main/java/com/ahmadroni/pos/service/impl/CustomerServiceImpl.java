@@ -1,9 +1,9 @@
 package com.ahmadroni.pos.service.impl;
 
-import com.ahmadroni.pos.entity.CategoryEntity;
-import com.ahmadroni.pos.model.CategoryModel;
-import com.ahmadroni.pos.repository.CategoryRepo;
-import com.ahmadroni.pos.service.CategoryService;
+import com.ahmadroni.pos.entity.CustomerEntity;
+import com.ahmadroni.pos.model.CustomerModel;
+import com.ahmadroni.pos.repository.CustomerRepo;
+import com.ahmadroni.pos.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -15,55 +15,55 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class CategoryServiceImpl implements CategoryService {
-    private final CategoryRepo categoryRepo;
+public class CustomerServiceImpl implements CustomerService {
+    private final CustomerRepo CustomerRepo;
 
     @Override
-    public List<CategoryEntity> getAll() {
-        return this.categoryRepo.findAll();
+    public List<CustomerEntity> getAll() {
+        return this.CustomerRepo.findAll();
     }
 
     @Override
-    public Optional<CategoryEntity> getById(Long id) {
+    public Optional<CustomerEntity> getById(Long id) {
         if(id == 0L)
             return Optional.empty();
 
-        return this.categoryRepo.findById(id);
+        return this.CustomerRepo.findById(id);
     }
 
     @Override
-    public Optional<CategoryEntity> getByCode(String code) {
+    public Optional<CustomerEntity> getByCode(String code) {
         if(code == null || code.isEmpty())
             return Optional.empty();
 
-        return this.categoryRepo.findByCode(code);
+        return this.CustomerRepo.findByCode(code);
     }
 
     @Override
-    public Optional<CategoryEntity> save(CategoryModel request) {
-        CategoryEntity entity = new CategoryEntity();
+    public Optional<CustomerEntity> save(CustomerModel request) {
+        CustomerEntity entity = new CustomerEntity();
         BeanUtils.copyProperties(request, entity);
         try {
-            this.categoryRepo.save(entity);
+            this.CustomerRepo.save(entity);
             return Optional.of(entity);
         }catch (Exception e){
-            log.error("Save category failed, error: {}", e.getMessage());
+            log.error("Save customer failed, error: {}", e.getMessage());
             return Optional.empty();
         }
     }
 
     @Override
-    public Optional<CategoryEntity> update(CategoryModel request, Long id) {
+    public Optional<CustomerEntity> update(CustomerModel request, Long id) {
         if(id == 0L)
             return Optional.empty();
 
-        CategoryEntity entity = this.categoryRepo.findById(id).orElse(null);
+        CustomerEntity entity = this.CustomerRepo.findById(id).orElse(null);
         if(entity == null)
             return Optional.empty();
 
         BeanUtils.copyProperties(request, entity);
         try {
-            this.categoryRepo.save(entity);
+            this.CustomerRepo.save(entity);
             return Optional.of(entity);
         }catch (Exception e){
             return Optional.empty();
@@ -71,16 +71,16 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<CategoryEntity> delete(Long id) {
+    public Optional<CustomerEntity> delete(Long id) {
         if(id == 0L)
             return Optional.empty();
 
-        CategoryEntity entity = this.categoryRepo.findById(id).orElse(null);
+        CustomerEntity entity = this.CustomerRepo.findById(id).orElse(null);
         if(entity == null)
             return Optional.empty();
 
         try {
-            this.categoryRepo.delete(entity);
+            this.CustomerRepo.delete(entity);
             return Optional.of(entity);
         }catch (Exception e){
             return Optional.empty();

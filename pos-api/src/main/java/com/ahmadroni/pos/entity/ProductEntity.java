@@ -39,6 +39,12 @@ public class ProductEntity {
     @Column(name = "category_id", nullable = false)
     private Long categoryId;
 
+    @Column(name = "unit_on_order")
+    private Double unitOnOrder;
+
+    @Column(name = "discontinued")
+    private Boolean discontinued;
+
     @ManyToOne
     @JoinColumn(name = "category_id", insertable = false, updatable = false)
     private CategoryEntity category;
@@ -49,5 +55,7 @@ public class ProductEntity {
         this.price = price;
         this.stock = stock;
         this.categoryId = categoryId;
+        this.unitOnOrder = 0.0;
+        this.discontinued = false;
     }
 }
