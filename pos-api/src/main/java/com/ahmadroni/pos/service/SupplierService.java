@@ -9,7 +9,6 @@ import java.util.Optional;
 public interface SupplierService {
     List<SupplierEntity> getAll();
     Optional<SupplierEntity> getById(Long id);
-    Optional<SupplierEntity> getByCode(String code);
     Optional<SupplierEntity> save(SupplierModel request);
     Optional<SupplierEntity> update(SupplierModel request, Long id);
     Optional<SupplierEntity> delete(Long id);

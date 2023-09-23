@@ -9,7 +9,6 @@ import java.util.Optional;
 public interface CustomerService {
     List<CustomerEntity> getAll();
     Optional<CustomerEntity> getById(Long id);
-    Optional<CustomerEntity> getByCode(String code);
     Optional<CustomerEntity> save(CustomerModel request);
     Optional<CustomerEntity> update(CustomerModel request, Long id);
     Optional<CustomerEntity> delete(Long id);

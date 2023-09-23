@@ -32,14 +32,6 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Optional<CustomerEntity> getByCode(String code) {
-        if(code == null || code.isEmpty())
-            return Optional.empty();
-
-        return this.customerRepo.findByCode(code);
-    }
-
-    @Override
     public Optional<CustomerEntity> save(CustomerModel request) {
         CustomerEntity entity = new CustomerEntity();
         BeanUtils.copyProperties(request, entity);

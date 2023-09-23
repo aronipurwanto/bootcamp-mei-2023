@@ -32,14 +32,6 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public Optional<SupplierEntity> getByCode(String code) {
-        if(code == null || code.isEmpty())
-            return Optional.empty();
-
-        return this.SupplierRepo.findByCode(code);
-    }
-
-    @Override
     public Optional<SupplierEntity> save(SupplierModel request) {
         SupplierEntity entity = new SupplierEntity();
         BeanUtils.copyProperties(request, entity);
