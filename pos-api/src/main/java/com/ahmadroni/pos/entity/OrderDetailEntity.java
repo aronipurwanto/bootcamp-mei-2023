@@ -49,8 +49,7 @@ public class OrderDetailEntity {
     @Column(name = "sub_total", nullable = false)
     private Double subTotal;
 
-    public OrderDetailEntity(Long orderId, Long productId, Double price, Double quantity) {
-        this.orderId = orderId;
+    public OrderDetailEntity(Long productId, Double price, Double quantity) {
         this.productId = productId;
         this.price = price;
         this.quantity = quantity;

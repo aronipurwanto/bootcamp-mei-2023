@@ -1,5 +1,6 @@
 package com.ahmadroni.pos.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -64,19 +65,20 @@ public class OrderEntity {
 
     @JsonManagedReference
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderDetailEntity> orderDetail = new ArrayList<>();
+    private List<OrderDetailEntity> orderDetails = new ArrayList<>();
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id", insertable = false, updatable = false)
     private CustomerEntity customer;
 
     public void addDetail(OrderDetailEntity item){
-        this.orderDetail.add(item);
+        this.orderDetails.add(item);
         item.setOrder(this);
     }
 
     public void removeDetail(OrderDetailEntity item){
-        this.orderDetail.remove(item);
+        this.orderDetails.remove(item);
         item.setOrder(null);
     }
 }

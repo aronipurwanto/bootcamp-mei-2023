@@ -16,11 +16,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class CustomerServiceImpl implements CustomerService {
-    private final CustomerRepo CustomerRepo;
+    private final CustomerRepo customerRepo;
 
     @Override
     public List<CustomerEntity> getAll() {
-        return this.CustomerRepo.findAll();
+        return this.customerRepo.findAll();
     }
 
     @Override
@@ -28,7 +28,7 @@ public class CustomerServiceImpl implements CustomerService {
         if(id == 0L)
             return Optional.empty();
 
-        return this.CustomerRepo.findById(id);
+        return this.customerRepo.findById(id);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
         if(code == null || code.isEmpty())
             return Optional.empty();
 
-        return this.CustomerRepo.findByCode(code);
+        return this.customerRepo.findByCode(code);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class CustomerServiceImpl implements CustomerService {
         CustomerEntity entity = new CustomerEntity();
         BeanUtils.copyProperties(request, entity);
         try {
-            this.CustomerRepo.save(entity);
+            this.customerRepo.save(entity);
             return Optional.of(entity);
         }catch (Exception e){
             log.error("Save customer failed, error: {}", e.getMessage());
@@ -57,13 +57,13 @@ public class CustomerServiceImpl implements CustomerService {
         if(id == 0L)
             return Optional.empty();
 
-        CustomerEntity entity = this.CustomerRepo.findById(id).orElse(null);
+        CustomerEntity entity = this.customerRepo.findById(id).orElse(null);
         if(entity == null)
             return Optional.empty();
 
         BeanUtils.copyProperties(request, entity);
         try {
-            this.CustomerRepo.save(entity);
+            this.customerRepo.save(entity);
             return Optional.of(entity);
         }catch (Exception e){
             return Optional.empty();
@@ -75,12 +75,12 @@ public class CustomerServiceImpl implements CustomerService {
         if(id == 0L)
             return Optional.empty();
 
-        CustomerEntity entity = this.CustomerRepo.findById(id).orElse(null);
+        CustomerEntity entity = this.customerRepo.findById(id).orElse(null);
         if(entity == null)
             return Optional.empty();
 
         try {
-            this.CustomerRepo.delete(entity);
+            this.customerRepo.delete(entity);
             return Optional.of(entity);
         }catch (Exception e){
             return Optional.empty();

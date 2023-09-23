@@ -1,10 +1,14 @@
 package com.ahmadroni.pos.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -29,6 +33,10 @@ public class CategoryEntity {
 
     @Column(name = "category_name", length = 64, unique = true)
     private String name;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<ProductEntity> products = new ArrayList<>();
 
     public CategoryEntity(String code, String name) {
         this.code = code;

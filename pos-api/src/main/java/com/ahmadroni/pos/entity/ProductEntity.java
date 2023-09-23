@@ -1,5 +1,6 @@
 package com.ahmadroni.pos.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -45,6 +46,7 @@ public class ProductEntity {
     @Column(name = "discontinued")
     private Boolean discontinued;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "category_id", insertable = false, updatable = false)
     private CategoryEntity category;
