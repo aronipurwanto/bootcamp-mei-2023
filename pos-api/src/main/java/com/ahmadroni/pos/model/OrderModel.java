@@ -11,9 +11,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderModel {
-    private CustomerModel customer;
+    private String invoiceNo;
     private Date orderDate;
-    private Date shippedDate;
+    private Double grandTotal;
     private OrderShipModel ship;
+    private CustomerModel customer;
     private List<OrderDetailModel> orderDetail;
 }
