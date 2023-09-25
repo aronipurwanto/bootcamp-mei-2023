@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OrderService {
-    List<OrderEntity> getAll();
-    Optional<OrderEntity> getById(Long id);
-    List<OrderEntity> getByCustomerId(Long customerId);
-    Optional<OrderEntity> getByInvoiceNo(String invoiceNo);
+    List<OrderModel> getAll();
+    Optional<OrderModel> getById(Long id);
+    List<OrderModel> getByCustomerId(Long customerId);
+    Optional<OrderModel> getByInvoiceNo(String invoiceNo);
     Optional<OrderEntity> save(OrderModel request);
     Optional<OrderEntity> update(OrderModel request, Long id);
     Optional<OrderEntity> delete(Long id);

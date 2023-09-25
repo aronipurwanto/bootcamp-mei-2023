@@ -1,8 +1,10 @@
 package com.ahmadroni.pos.model;
 
+import com.ahmadroni.pos.entity.OrderEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
 
@@ -17,4 +19,8 @@ public class OrderShipModel {
     private String shipPostalCode;
     private String shipCountry;
     private Date shippedDate;
+
+    public OrderShipModel(OrderEntity entity) {
+        BeanUtils.copyProperties(entity, this);
+    }
 }

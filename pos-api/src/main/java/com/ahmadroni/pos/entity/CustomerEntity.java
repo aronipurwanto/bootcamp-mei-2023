@@ -1,10 +1,14 @@
 package com.ahmadroni.pos.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -27,14 +31,18 @@ public class CustomerEntity {
     @Column(name = "customer_name", length = 64)
     private String name;
 
-    @Column(name = "customer_email", length = 64)
+    @Column(name = "customer_email", length = 64, unique = true)
     private String email;
 
-    @Column(name = "customer_phone", length = 20)
+    @Column(name = "customer_phone", length = 20, unique = true)
     private String phone;
 
     @Column(name = "address", length = 120)
     private String address;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<OrderEntity> orders = new ArrayList<>();
 
     public CustomerEntity(String name, String email, String phone) {
         this.name = name;

@@ -25,11 +25,11 @@ public class OrderDetailEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "order_id", nullable = false)
+    @Column(name = "order_id", insertable = false, updatable = false)
     private Long orderId;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "order_id", insertable = false, updatable = false)
+    @JoinColumn(name = "order_id", nullable = false)
     private OrderEntity order;
 
     @Column(name = "product_id", nullable = false)
@@ -49,7 +49,8 @@ public class OrderDetailEntity {
     @Column(name = "sub_total", nullable = false)
     private Double subTotal;
 
-    public OrderDetailEntity(Long productId, Double price, Double quantity) {
+    public OrderDetailEntity(OrderEntity order, Long productId, Double price, Double quantity) {
+        this.order = order;
         this.productId = productId;
         this.price = price;
         this.quantity = quantity;

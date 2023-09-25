@@ -41,6 +41,10 @@ public class ProductServiceImpl implements ProductService {
     public Optional<ProductEntity> save(ProductModel request) {
         ProductEntity entity = new ProductEntity();
         BeanUtils.copyProperties(request, entity);
+
+        // set data yang tidak ada di model
+        entity.setDiscontinued(false);
+        entity.setUnitOnOrder(0.0);
         try {
             this.productRepo.save(entity);
             return Optional.of(entity);

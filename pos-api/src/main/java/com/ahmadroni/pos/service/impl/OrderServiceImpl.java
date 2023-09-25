@@ -31,32 +31,49 @@ public class OrderServiceImpl implements OrderService {
     private final ProductRepo productRepo;
 
     @Override
-    public List<OrderEntity> getAll() {
-        return this.orderRepo.findAll();
+    public List<OrderModel> getAll() {
+        List<OrderEntity> result = this.orderRepo.findAll();
+        if(result.isEmpty()){
+            return Collections.emptyList();
+        }
+
+        return result.stream().map(OrderModel::new).collect(Collectors.toList());
     }
 
     @Override
-    public Optional<OrderEntity> getById(Long id) {
+    public Optional<OrderModel> getById(Long id) {
         if(id == 0L)
             return Optional.empty();
-
-        return this.orderRepo.findById(id);
-    }
-
-    @Override
-    public List<OrderEntity> getByCustomerId(Long customerId) {
-        if(customerId == 0L){
-            return Collections.EMPTY_LIST;
+        var result = this.orderRepo.findById(id).orElse(null);
+        if(result == null){
+            return Optional.empty();
         }
-        return this.orderRepo.findByCustomerId(customerId);
+
+        OrderModel orderModel= new OrderModel(result);
+        return Optional.of(orderModel);
     }
 
     @Override
-    public Optional<OrderEntity> getByInvoiceNo(String invoiceNo) {
+    public List<OrderModel> getByCustomerId(Long customerId) {
+        if(customerId == 0L){
+            return Collections.emptyList();
+        }
+
+        var result = this.orderRepo.findByCustomerId(customerId);
+        return result.stream().map(OrderModel::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<OrderModel> getByInvoiceNo(String invoiceNo) {
         if(invoiceNo == null || invoiceNo.isEmpty())
             return Optional.empty();
-
-        return this.orderRepo.findByInvoiceNo(invoiceNo);
+        var result = this.orderRepo.findByInvoiceNo(invoiceNo).orElse(null);
+        if(result == null){
+            return Optional.empty();
+        }
+        OrderModel orderModel = new OrderModel(result);
+        return Optional.of(orderModel);
     }
 
     @Override
@@ -98,11 +115,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private CustomerEntity getCustomer(CustomerModel request){
-        if(request.getId() == 0L){
-            return null;
-        }
         // check customer from database
-        var result = this.customerRepo.findById(request.getId()).orElse(null);
+        var result = this.customerRepo.findByEmail(request.getEmail()).orElse(null);
         // when customer is not exist on database then create new customer
         if(result == null){
             // set new object customer
@@ -111,7 +125,7 @@ public class OrderServiceImpl implements OrderService {
             BeanUtils.copyProperties(request, customer);
             try{
                 // save to the database
-                this.customerRepo.save(customer);
+                this.customerRepo.saveAndFlush(customer);
                 // if success, then return value customer
                 return customer;
             }catch (Exception e){
@@ -160,29 +174,30 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private OrderEntity newOrder(OrderModel request, Long customerId){
-        OrderEntity entity = new OrderEntity();
+        OrderEntity order = new OrderEntity();
 
         // copy shipper
-        BeanUtils.copyProperties(request.getShip(), entity);
-
+        BeanUtils.copyProperties(request.getShip(), order);
+        // set invoice
+        order.setInvoiceNo(request.getInvoiceNo());
         // set customer id
-        entity.setCustomerId(customerId);
+        order.setCustomerId(customerId);
         // set date
-        entity.setOrderDate(new Date());
+        order.setOrderDate(new Date());
 
         // var grandTotal
         Double grandTotal = 0.0;
         for (OrderDetailModel detail: request.getOrderDetail()){
             // call constructor OrderDetailEntity with params
-            OrderDetailEntity detailEntity = new OrderDetailEntity(detail.getProductId(), detail.getPrice(), detail.getQuantity());
+            OrderDetailEntity detailEntity = new OrderDetailEntity(order, detail.getProductId(), detail.getPrice(), detail.getQuantity());
             // call method addDetail
-            entity.addDetail(detailEntity);
+            order.addDetail(detailEntity);
             // grandTotal plus subtotal
             grandTotal += detailEntity.getSubTotal();
         }
         // set grand grandTotal
-        entity.setGrandTotal(grandTotal);
-        return  entity;
+        order.setGrandTotal(grandTotal);
+        return  order;
     }
 
     @Override
