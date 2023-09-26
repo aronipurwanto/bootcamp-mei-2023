@@ -38,7 +38,7 @@ public class OrderController {
 
     @PostMapping()
     private ResponseEntity<ResponseModel> save(@RequestBody OrderModel request){
-        Optional<OrderEntity> data = this.service.save(request);
+        Optional<OrderModel> data = this.service.save(request);
         if(data.isPresent()) {
             return ResponseEntity.ok()
                     .body(new ResponseModel(200, "SUCCESS", data));

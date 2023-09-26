@@ -11,7 +11,7 @@ public interface OrderService {
     Optional<OrderModel> getById(Long id);
     List<OrderModel> getByCustomerId(Long customerId);
     Optional<OrderModel> getByInvoiceNo(String invoiceNo);
-    Optional<OrderEntity> save(OrderModel request);
+    Optional<OrderModel> save(OrderModel request);
     Optional<OrderEntity> update(OrderModel request, Long id);
     Optional<OrderEntity> delete(Long id);
 }

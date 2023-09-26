@@ -49,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
             return Optional.empty();
         }
 
-        OrderModel orderModel= new OrderModel(result);
+        OrderModel orderModel = new OrderModel(result);
         return Optional.of(orderModel);
     }
 
@@ -77,7 +77,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Optional<OrderEntity> save(OrderModel request) {
+    public Optional<OrderModel> save(OrderModel request) {
         if(request.getCustomer() == null){
             log.error("Save Order failed, customer is null");
             return Optional.empty();
@@ -103,9 +103,11 @@ public class OrderServiceImpl implements OrderService {
 
         try {
             // try to save to the database
-            this.orderRepo.save(entity);
+            this.orderRepo.saveAndFlush(entity);
             // if success then return option order
-            return Optional.of(entity);
+            OrderModel response = new OrderModel(entity);
+
+            return Optional.of(response);
         }catch (Exception e){
             // when save is failed, then rise the log message
             log.error("Save Order failed, error: {}", e.getMessage());
