@@ -1,8 +1,9 @@
 package com.ahmadroni.pos.controller;
 
 import com.ahmadroni.pos.entity.ProductEntity;
-import com.ahmadroni.pos.model.ProductModel;
+import com.ahmadroni.pos.model.request.ProductRequest;
 import com.ahmadroni.pos.model.ResponseModel;
+import com.ahmadroni.pos.model.response.ProductResponse;
 import com.ahmadroni.pos.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,14 +21,14 @@ public class ProductController {
 
     @GetMapping
     private ResponseEntity<ResponseModel> getAll(){
-        List<ProductEntity> data = this.service.getAll();
+        List<ProductResponse> data = this.service.getAll();
         return ResponseEntity.ok()
                 .body(new ResponseModel(200,"SUCCESS", data));
     }
 
     @GetMapping("/{id}")
     private ResponseEntity<ResponseModel> getById(@PathVariable("id") Long id){
-        Optional<ProductEntity> data = this.service.getById(id);
+        Optional<ProductResponse> data = this.service.getById(id);
         if(data.isPresent()) {
             return ResponseEntity.ok()
                     .body(new ResponseModel(200, "SUCCESS", data));
@@ -37,7 +38,7 @@ public class ProductController {
     }
 
     @PostMapping()
-    private ResponseEntity<ResponseModel> save(@RequestBody ProductModel request){
+    private ResponseEntity<ResponseModel> save(@RequestBody ProductRequest request){
         Optional<ProductEntity> data = this.service.save(request);
         if(data.isPresent()) {
             return ResponseEntity.ok()
@@ -49,7 +50,7 @@ public class ProductController {
     }
 
     @PatchMapping("/{id}")
-    private ResponseEntity<ResponseModel> update(@RequestBody ProductModel request, @PathVariable("id") Long id){
+    private ResponseEntity<ResponseModel> update(@RequestBody ProductRequest request, @PathVariable("id") Long id){
         Optional<ProductEntity> data = this.service.update(request, id);
         if(data.isPresent()) {
             return ResponseEntity.ok()

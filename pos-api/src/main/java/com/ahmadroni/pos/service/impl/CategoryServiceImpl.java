@@ -1,7 +1,7 @@
 package com.ahmadroni.pos.service.impl;
 
 import com.ahmadroni.pos.entity.CategoryEntity;
-import com.ahmadroni.pos.model.CategoryModel;
+import com.ahmadroni.pos.model.request.CategoryRequest;
 import com.ahmadroni.pos.repository.CategoryRepo;
 import com.ahmadroni.pos.service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +40,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<CategoryEntity> save(CategoryModel request) {
+    public Optional<CategoryEntity> save(CategoryRequest request) {
         CategoryEntity entity = new CategoryEntity();
         BeanUtils.copyProperties(request, entity);
         try {
@@ -53,7 +53,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<CategoryEntity> update(CategoryModel request, Long id) {
+    public Optional<CategoryEntity> update(CategoryRequest request, Long id) {
         if(id == 0L)
             return Optional.empty();
 

@@ -1,7 +1,7 @@
 package com.ahmadroni.pos.controller;
 
 import com.ahmadroni.pos.entity.CategoryEntity;
-import com.ahmadroni.pos.model.CategoryModel;
+import com.ahmadroni.pos.model.request.CategoryRequest;
 import com.ahmadroni.pos.model.ResponseModel;
 import com.ahmadroni.pos.service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ public class CategoryController {
     }
 
     @PostMapping()
-    private ResponseEntity<ResponseModel> save(@RequestBody CategoryModel request){
+    private ResponseEntity<ResponseModel> save(@RequestBody CategoryRequest request){
         Optional<CategoryEntity> data = this.service.save(request);
         if(data.isPresent()) {
             return ResponseEntity.ok()
@@ -49,7 +49,7 @@ public class CategoryController {
     }
 
     @PatchMapping("/{id}")
-    private ResponseEntity<ResponseModel> update(@RequestBody CategoryModel request, @PathVariable("id") Long id){
+    private ResponseEntity<ResponseModel> update(@RequestBody CategoryRequest request, @PathVariable("id") Long id){
         Optional<CategoryEntity> data = this.service.update(request, id);
         if(data.isPresent()) {
             return ResponseEntity.ok()
