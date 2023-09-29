@@ -2,6 +2,7 @@ package com.ahmadroni.pos.service.impl;
 
 import com.ahmadroni.pos.entity.CustomerEntity;
 import com.ahmadroni.pos.model.CustomerModel;
+import com.ahmadroni.pos.model.response.CustomerResponse;
 import com.ahmadroni.pos.repository.CustomerRepo;
 import com.ahmadroni.pos.service.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -9,8 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,8 +22,15 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepo customerRepo;
 
     @Override
-    public List<CustomerEntity> getAll() {
-        return this.customerRepo.findAll();
+    public List<CustomerResponse> getAll() {
+        List<CustomerEntity> result = this.customerRepo.findAll();
+        if(result.isEmpty()){
+            return Collections.emptyList();
+        }
+
+        return result.stream()
+                .map(CustomerResponse::new)
+                .collect(Collectors.toList());
     }
 
     @Override

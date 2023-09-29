@@ -3,6 +3,7 @@ package com.ahmadroni.pos.controller;
 import com.ahmadroni.pos.entity.CustomerEntity;
 import com.ahmadroni.pos.model.CustomerModel;
 import com.ahmadroni.pos.model.ResponseModel;
+import com.ahmadroni.pos.model.response.CustomerResponse;
 import com.ahmadroni.pos.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class CustomerController {
 
     @GetMapping
     private ResponseEntity<ResponseModel> getAll(){
-        List<CustomerEntity> data = this.service.getAll();
+        List<CustomerResponse> data = this.service.getAll();
         return ResponseEntity.ok()
                 .body(new ResponseModel(200,"SUCCESS", data));
     }
