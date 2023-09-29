@@ -2,6 +2,7 @@ package com.ahmadroni.pos.service.impl;
 
 import com.ahmadroni.pos.entity.CategoryEntity;
 import com.ahmadroni.pos.model.request.CategoryRequest;
+import com.ahmadroni.pos.model.response.CategoryResponse;
 import com.ahmadroni.pos.repository.CategoryRepo;
 import com.ahmadroni.pos.service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -9,8 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,8 +22,13 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepo categoryRepo;
 
     @Override
-    public List<CategoryEntity> getAll() {
-        return this.categoryRepo.findAll();
+    public List<CategoryResponse> getAll() {
+        var result = this.categoryRepo.findAll();
+        if(result.isEmpty()){
+            return Collections.emptyList();
+        }
+        return result.stream().map(CategoryResponse::new)
+                .collect(Collectors.toList());
     }
 
     @Override

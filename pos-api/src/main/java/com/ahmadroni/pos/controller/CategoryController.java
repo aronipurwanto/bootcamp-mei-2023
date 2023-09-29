@@ -3,6 +3,7 @@ package com.ahmadroni.pos.controller;
 import com.ahmadroni.pos.entity.CategoryEntity;
 import com.ahmadroni.pos.model.request.CategoryRequest;
 import com.ahmadroni.pos.model.ResponseModel;
+import com.ahmadroni.pos.model.response.CategoryResponse;
 import com.ahmadroni.pos.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class CategoryController {
 
     @GetMapping
     private ResponseEntity<ResponseModel> getAll(){
-        List<CategoryEntity> data = this.service.getAll();
+        List<CategoryResponse> data = this.service.getAll();
         return ResponseEntity.ok()
                 .body(new ResponseModel(200,"SUCCESS", data));
     }
