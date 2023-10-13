@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fakultas - Edit</title>
+</head>
+<body>
+    <h1>Fakultas Edit</h1>
+    <form th:action="@{/fakultas/update}" method="post">
+        <input type="hidden" name="id" th:value="${data.id}">
+        <label>Account No : </label>
+        <input type="text" name="code" th:value="${data.code}"> <br/><br/>
+
+        <label>Name : </label>
+        <input type="text" name="name" th:value="${data.name}"> <br/><br/>
+
+        <button type="submit">Update</button> &nbsp;
+        <a th:href="@{/fakultas}">Back</a>
+    </form>
+</body>
+</html>

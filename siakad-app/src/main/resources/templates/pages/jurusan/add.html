@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jurusan - Add</title>
+</head>
+<body>
+    <h1>Jurusan Add</h1>
+    <form th:action="@{/jurusan/save}" method="post">
+        <label>Fakultas : </label>
+        <select name="fakultasId">
+            <option value="">Pilih Fakultas</option>
+            <option th:each="fakultas: ${dataFakultas}" th:value="${fakultas.id}" th:text="|${fakultas.code} - ${fakultas.name}|"> </option>
+        </select> <br/><br/>
+
+        <label>Code : </label>
+        <input type="text" name="code"> <br/><br/>
+
+        <label>Name : </label>
+        <input type="text" name="name"> <br/><br/>
+
+        <button type="submit">Save</button> &nbsp;
+        <a th:href="@{~/jurusan}">Back</a>
+    </form>
+</body>
+</html>

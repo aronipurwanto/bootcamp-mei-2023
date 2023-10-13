@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fakultas Index</title>
+</head>
+<body>
+    <h1>Fakultas Data</h1>
+    <a th:href="@{~/home}">Home</a> &nbsp;
+    <a th:href="@{/fakultas/add}">Add New</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item :${dataList}">
+                <td th:text="${item.id}"></td>
+                <td th:text="${item.code}"></td>
+                <td th:text="${item.name}"></td>
+                <td>
+                    <a th:href="@{~/fakultas/edit/{id}(id=${item.id}) }">Edit</a> |
+                    <a th:href="@{~/fakultas/detail/{id}(id=${item.id}) }">Detail</a> |
+                    <a th:href="@{~/fakultas/delete/{id}(id=${item.id}) }">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

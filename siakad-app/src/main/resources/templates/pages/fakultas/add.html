@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fakultas - Add</title>
+</head>
+<body>
+    <h1>Fakultas Add</h1>
+    <form th:action="@{/fakultas/save}" method="post">
+        <label>Account No : </label>
+        <input type="text" name="code"> <br/><br/>
+
+        <label>Name : </label>
+        <input type="text" name="name"> <br/><br/>
+
+        <button type="submit">Save</button>
+        <a th:href="@{/fakultas}">Back</a>
+    </form>
+</body>
+</html>

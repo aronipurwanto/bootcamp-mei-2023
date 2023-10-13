@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jurusan - Edit</title>
+</head>
+<body>
+    <h1>Jurusan Edit</h1>
+    <form th:action="@{/fakultas/update}" method="post">
+        <input type="hidden" name="id" th:value="${data.id}">
+        <label>Fakultas Name : </label>
+        <input type="text" name="fakultasName" th:value="${data.fakultasName}"> <br/><br/>
+
+        <label>Code : </label>
+        <input type="text" name="code" th:value="${data.code}"> <br/><br/>
+
+        <label>Name : </label>
+        <input type="text" name="name" th:value="${data.name}"> <br/><br/>
+
+        <a th:href="@{~/jurusan}">Back</a>
+    </form>
+</body>
+</html>
