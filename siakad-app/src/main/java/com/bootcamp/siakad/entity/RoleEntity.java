@@ -1,7 +1,9 @@
 package com.bootcamp.siakad.entity;
 
+import com.bootcamp.siakad.model.RoleModel;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.beans.BeanUtils;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,5 +28,9 @@ public class RoleEntity {
 
     private RoleEntity(String name){
         this.name = name;
+    }
+
+    public RoleEntity(RoleModel model){
+        BeanUtils.copyProperties(model, this);
     }
 }
