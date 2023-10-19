@@ -33,6 +33,18 @@ public class FakultasController {
 
     @PostMapping("/save")
     public ModelAndView saveFakultas(@ModelAttribute FakultasModel request){
+        if(request == null){
+            return new ModelAndView("redirect:/fakultas/add");
+        }
+
+        if(request.getCode().isEmpty()){
+            return new ModelAndView("redirect:/fakultas/add");
+        }
+
+        if(request.getName().isEmpty()){
+            return new ModelAndView("redirect:/fakultas/add");
+        }
+
         // call save from service
         service.save(request);
         // redirect to index
