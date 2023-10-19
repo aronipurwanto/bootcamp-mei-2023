@@ -68,6 +68,18 @@ public class FakultasController {
     // update data
     @PostMapping("/update")
     public ModelAndView updateFakultas(@ModelAttribute FakultasModel request){
+        if(request == null){
+            return new ModelAndView("redirect:/fakultas/edit/"+ request.getId());
+        }
+
+        if(request.getCode().isEmpty()){
+            return new ModelAndView("redirect:/fakultas/edit/"+ request.getId());
+        }
+
+        if(request.getName().isEmpty()){
+            return new ModelAndView("redirect:/fakultas/edit/"+ request.getId());
+        }
+
         // call save from service
         service.update(request, request.getId());
         // redirect to index
